@@ -1,0 +1,1 @@
+docker run -it --rm -v $PWD:/build/code -w /build/code harbor-k8s.xsyxsc.cn/lbs/builder:1.5 bash
