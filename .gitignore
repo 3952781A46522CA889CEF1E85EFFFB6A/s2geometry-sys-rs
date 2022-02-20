@@ -1,0 +1,4 @@
+/target
+Cargo.lock
+/vendor/s2geometry/build
+/vendor/abseil-cpp/build
