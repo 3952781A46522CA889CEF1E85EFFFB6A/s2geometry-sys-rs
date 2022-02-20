@@ -11,6 +11,7 @@ using namespace std;
 #ifdef __cplusplus
 extern "C" {
 #endif
+static const char kPrefix[] = "s2:";
 
 void wrapper_test();
 
@@ -25,6 +26,7 @@ public:
     S2RegionTermIndexer::Options options;
     S2RegionTermIndexer indexer;
     std::vector <S2Point> *documents;
+    std::unordered_map <string, std::vector<int>> *index;
 
     ctx();
 

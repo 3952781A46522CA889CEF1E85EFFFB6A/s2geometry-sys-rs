@@ -2,39 +2,40 @@
 
 ctx::ctx() {
     S2RegionTermIndexer::Options options;
+    options.set_index_contains_points_only(true);
     this->options = options;
     S2RegionTermIndexer indexer(options);
     this->indexer = std::move(indexer);
     std::vector <S2Point> *documents = new std::vector<S2Point>;
     this->documents = documents;
+    std::unordered_map <string, std::vector<int>> *index = new std::unordered_map <string, std::vector<int>>;
+    this->index = index;
 }
 
 void ctx::load(float const *_points, size_t len) {
     documents->clear();
+    index->clear();
     for (int i = 0; i < len; i += 2) {
         S2LatLng _tmp = S2LatLng::FromDegrees(*(_points + i + 1), *(_points + i));
         documents->push_back(_tmp.ToPoint());
     }
+    for (int docid = 0; docid < documents->size(); ++docid) {
+        S2Point index_region = (*documents)[docid];
+        for (const auto &term: indexer.GetIndexTerms(index_region, kPrefix)) {
+            (*index)[term].push_back(docid);
+        }
+    }
 }
 
 void *ctx::search(float _lng, float _lat, float _radius, size_t *_len) {
-    static const char kPrefix[] = "s2:";
     S1Angle radius = S1Angle::Radians(S2Earth::KmToRadians(_radius));
     S2LatLng tmp = S2LatLng::FromDegrees(_lat, _lng);
     S2Point center = tmp.ToPoint();
     S2Cap query_region(center, radius);
     std::set<int> candidates;
-    std::unordered_map <string, std::vector<int>> index;
-
-    for (int docid = 0; docid < documents->size(); ++docid) {
-        S2Point index_region = (*documents)[docid];
-        for (const auto &term: indexer.GetIndexTerms(index_region, kPrefix)) {
-            index[term].push_back(docid);
-        }
-    }
 
     for (const auto &term: indexer.GetQueryTerms(query_region, kPrefix)) {
-        candidates.insert(index[term].begin(), index[term].end());
+        candidates.insert((*index)[term].begin(), (*index)[term].end());
     }
 
     vector<int> *result = new vector<int>;
@@ -50,6 +51,7 @@ void *ctx::search(float _lng, float _lat, float _radius, size_t *_len) {
 
 void ctx::clear() {
     documents->clear();
+    index->clear();
 }
 
 void wrapper_test() {

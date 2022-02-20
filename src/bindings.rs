@@ -214,6 +214,11 @@ pub type std_allocator_is_always_equal = u8;
 pub struct std_equal_to {
     pub _address: u8,
 }
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct std_hash {
+    pub _address: u8,
+}
 pub type std_array_value_type = u8;
 pub type std_array_pointer = u8;
 pub type std_array_const_pointer = u8;
@@ -246,6 +251,30 @@ pub type std_tuple__TNTC = u8;
 pub struct std_function {
     pub _address: u8,
 }
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct std_unordered_map {
+    pub _address: u8,
+}
+pub type std_unordered_map__Hashtable = u8;
+pub type std_unordered_map_key_type = u8;
+pub type std_unordered_map_value_type = u8;
+pub type std_unordered_map_mapped_type = u8;
+pub type std_unordered_map_hasher = u8;
+pub type std_unordered_map_key_equal = u8;
+pub type std_unordered_map_allocator_type = u8;
+pub type std_unordered_map_pointer = u8;
+pub type std_unordered_map_const_pointer = u8;
+pub type std_unordered_map_reference = u8;
+pub type std_unordered_map_const_reference = u8;
+pub type std_unordered_map_iterator = u8;
+pub type std_unordered_map_const_iterator = u8;
+pub type std_unordered_map_local_iterator = u8;
+pub type std_unordered_map_const_local_iterator = u8;
+pub type std_unordered_map_size_type = u8;
+pub type std_unordered_map_difference_type = u8;
+pub type std_unordered_map_node_type = u8;
+pub type std_unordered_map_insert_return_type = u8;
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct std_vector {
@@ -5806,6 +5835,7 @@ pub struct ctx {
     pub options: S2RegionTermIndexer_Options,
     pub indexer: S2RegionTermIndexer,
     pub documents: *mut u8,
+    pub index: *mut u8,
 }
 extern "C" {
     #[link_name = "\u{1}_ZN3ctx4loadEPKfm"]
