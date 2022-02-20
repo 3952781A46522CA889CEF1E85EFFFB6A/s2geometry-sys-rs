@@ -9,6 +9,10 @@ impl PartialEq for S1Angle {
     }
 }
 
+unsafe impl Send for ctx {}
+
+unsafe impl Sync for ctx {}
+
 #[cfg(test)]
 mod tests {
     use std::borrow::BorrowMut;

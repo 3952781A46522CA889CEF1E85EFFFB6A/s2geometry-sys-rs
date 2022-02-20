@@ -13,4 +13,4 @@ bindgen src/s2wrapper.hpp \
   --opaque-type "gtl.*"\
   --no-layout-tests\
   --size_t-is-usize\
-  -- -std=c++17 -D_GLIBCXX_USE_CXX11_ABI=1
+  -- -std=c++17 -D_GLIBCXX_USE_CXX11_ABI=1 -I/Library/Developer/CommandLineTools/usr/include/c++/v1
